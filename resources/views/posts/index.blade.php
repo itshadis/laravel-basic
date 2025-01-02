@@ -19,12 +19,11 @@
           <h5 class="card-title">{{ $post[1] }}</h5>
           <p class="card-text">{{ $post[2] }}</p>
           <p class="card-text"><small class="text-body-secondary">Created : {{ date("d m Y H:i", strtotime($post[3])) }}</small></p>
-          <a href="#" class="btn btn-primary">Selengkapnya</a>
+          <a href="{{ url("posts/$post[0]") }}" class="btn btn-primary">Selengkapnya</a>
         </div>
       </div>
     @endforeach
   </div>
-
   
 </body>
 </html>
