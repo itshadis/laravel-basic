@@ -21,4 +21,9 @@ Route::get('/', function () {
 // Route::get('hello', [HelloController::class, 'index']);
 
 Route::get('/posts', [PostController::class, 'index']);
+Route::get('/posts/create', [PostController::class, 'create']);
 Route::get('/posts/{id}', [PostController::class, 'show']);
+Route::post('/posts', [PostController::class, 'store']);
+Route::get('/post/{id}/edit', [PostController::class, 'edit']);
+Route::patch('/post/{id}', [PostController::class, 'update']);
+Route::delete('/post/delete/{id}', [PostController::class, 'destroy']);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -14,8 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Storage::get('posts.txt');
-        $posts = explode("\n", $posts);
+        $posts = DB::table('posts')->get();
         $data = [
             'posts' => $posts
         ];
@@ -30,7 +30,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
     /**
@@ -41,7 +41,17 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $title = $request->input('title');
+        $content = $request->input('content');
+    
+        DB::table('posts')->insert([
+            "title" => $title,
+            "content" => $content,
+            "created_at" => date('Y-m-d H:i:s'),
+            "updated_at" => date('Y-m-d H:i:s'),
+        ]);
+
+        return redirect('posts');
     }
 
     /**
@@ -52,7 +62,12 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        return view('posts.show');
+        $post = DB::table('posts')->select('id', 'title', 'content', 'created_at')->where('id', $id)->first();
+        $data = [
+            'post' => $post
+        ];
+        
+        return view('posts.show', $data);
     }
 
     /**
@@ -63,7 +78,12 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = DB::table('posts')->where('id', $id)->first();
+        $data = [
+            'post' => $post
+        ];
+
+        return view('posts.edit', $data);
     }
 
     /**
@@ -75,7 +95,16 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $title = $request->title;
+        $content = $request->content;
+
+        DB::table('posts')->where('id', $id)->update([
+            'title' => $title,
+            'content' => $content,
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
+
+        return redirect("posts/$id");
     }
 
     /**
@@ -86,6 +115,8 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::table('posts')->where('id', $id)->delete();
+
+        return redirect('posts');
     }
 }
