@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use App\Models\Post;
 
 class PostController extends Controller
 {
@@ -15,7 +16,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = DB::table('posts')->where('active', true)->get();
+        $posts = Post::active()->get();
         $data = [
             'posts' => $posts
         ];
@@ -44,7 +45,7 @@ class PostController extends Controller
         $title = $request->input('title');
         $content = $request->input('content');
     
-        DB::table('posts')->insert([
+        Post::insert([
             "title" => $title,
             "content" => $content,
             "created_at" => date('Y-m-d H:i:s'),
@@ -62,7 +63,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = DB::table('posts')->select('id', 'title', 'content', 'created_at')->where('id', $id)->first();
+        $post = Post::where('id', $id)->first();
         $data = [
             'post' => $post
         ];
@@ -78,7 +79,7 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $post = DB::table('posts')->where('id', $id)->first();
+        $post = Post::where('id', $id)->first();
         $data = [
             'post' => $post
         ];
@@ -98,7 +99,7 @@ class PostController extends Controller
         $title = $request->title;
         $content = $request->content;
 
-        DB::table('posts')->where('id', $id)->update([
+        Post::where('id', $id)->update([
             'title' => $title,
             'content' => $content,
             'updated_at' => date('Y-m-d H:i:s'),
@@ -115,7 +116,7 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('posts')->where('id', $id)->delete();
+        Post::where('id', $id)->delete();
 
         return redirect('posts');
     }
