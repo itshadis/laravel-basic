@@ -33,7 +33,7 @@ class BlogPost extends Mailable
     {
         return new Envelope(
             from: new Address('kidz@mail.com', 'Kidz'),
-            subject: 'Blog Post',
+            subject: 'Blog Baru',
         );
     }
 
@@ -45,7 +45,7 @@ class BlogPost extends Mailable
     public function content()
     {
         return new Content(
-            view: 'view.name',
+            view: 'mails.blog_posted',
         );
     }
 

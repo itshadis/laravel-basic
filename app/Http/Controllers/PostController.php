@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\BlogPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class PostController extends Controller
 {
@@ -58,6 +60,8 @@ class PostController extends Controller
             "title" => $title,
             "content" => $content,
         ]);
+
+        Mail::to('admin@codepolitan.com')->send(new BlogPost());
 
         return redirect('posts');
     }
