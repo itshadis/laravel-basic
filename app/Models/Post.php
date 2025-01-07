@@ -16,6 +16,14 @@ class Post extends Model
         'content'
     ];
 
+    public static function boot() {
+        parent::boot();
+
+        static::creating(function($post) {
+            $post->slug = str_replace(' ', '-', $post->title);
+        });
+    }
+
     public function comments() {
         return $this->hasMany(Comment::class);
     }
