@@ -9,13 +9,13 @@
         <li><a href="#" class="nav-link px-2 text-white">Home</a></li>
       </ul>
 
-      <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-        <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
-      </form>
-
       <div class="text-end">
-        <button type="button" class="btn btn-outline-light me-2">Login</button>
-        <button type="button" class="btn btn-warning">Sign-up</button>
+        @if(Auth::check())
+          <a href="{{ url('logout') }}" class="btn btn-outline-light me-2">Logout</a>
+        @else()
+          <a href="{{ url('login') }}" class="btn btn-outline-light me-2">Login</a>
+          <a href="{{ url('register') }}" class="btn btn-outline-light me-2">Sign-up</a>
+        @endif
       </div>
     </div>
   </div>

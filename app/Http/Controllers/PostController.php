@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -15,7 +16,11 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
+        if(!Auth::check()) {
+            return redirect('login');
+        }
+
         $posts = Post::active()->get();
         $data = [
             'posts' => $posts
@@ -42,6 +47,10 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        if(!Auth::check()) {
+            return redirect('login');
+        }
+
         $title = $request->input('title');
         $content = $request->input('content');
     
@@ -61,6 +70,10 @@ class PostController extends Controller
      */
     public function show($id)
     {
+        if(!Auth::check()) {
+            return redirect('login');
+        }
+
         $post = Post::where('id', $id)->first();
         $comments = $post->comments()->get();
         $total_comments = $post->total_comments();
@@ -82,6 +95,10 @@ class PostController extends Controller
      */
     public function edit($id)
     {
+        if(!Auth::check()) {
+            return redirect('login');
+        }
+
         $post = Post::where('id', $id)->first();
         $data = [
             'post' => $post,
@@ -99,6 +116,10 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if(!Auth::check()) {
+            return redirect('login');
+        }
+
         $title = $request->title;
         $content = $request->content;
 
@@ -119,6 +140,10 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
+        if(!Auth::check()) {
+            return redirect('login');
+        }
+
         Post::where('id', $id)->delete();
 
         return redirect('posts');

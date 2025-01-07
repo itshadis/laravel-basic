@@ -11,11 +11,13 @@
   @include('layouts.app.header')
   
   <div class="container">
+    
     <!--Fill the content between then comment-->
     @yield('content')
     <!--Fill the content between then comment-->
     
     @include('layouts.app.footer')
+    
   </div>
 </body>
 </html>
