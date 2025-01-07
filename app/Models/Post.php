@@ -11,6 +11,19 @@ class Post extends Model
     use HasFactory;
     use SoftDeletes;
 
+    public $fillable = [
+        'title',
+        'content'
+    ];
+
+    public function comments() {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function total_comments() {
+        return $this->comments()->count();
+    }
+
     public function scopeActive($query) {
         return $query->where('active', true);
     }
